@@ -281,6 +281,7 @@ Mix them as the work requires. A future deposit can be any of these, or somethin
 
 ---
 ## AI Assistance Disclaimer
+
 This codebase was developed with the assistance of Claude Code and Grok CLI. While the AI provided code generation, debugging, and structural support, the human developer maintains full responsibility for reviewing, testing, and maintaining all content and functionality.
 ---
 
