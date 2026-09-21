@@ -6,22 +6,23 @@ This repository is not an application and does not ship a single pipeline you ru
 
 Each skill is a folder of markdown: a `SKILL.md` file plus optional chapters, cheatsheets, and reference notes. The agent reads those files when the task matches. You do not compile them. You install them by putting them on disk where the agent looks, then asking it to do the work.
 
-New skills can be deposited here at any time. The folders below are the current holdings, not the ceiling of the collection. A disease-application pipeline, a dissertation knowledge base, and an RNA-methods family already sit side by side; the next deposit does not need to match any of them.
+New skills can be deposited here at any time. The folders below are the current holdings, not the ceiling of the collection. A dissertation knowledge base, a teaching-lab protocol, an RNA-methods family, and a disease-application pipeline already sit side by side; the next deposit does not need to match any of them.
 
 ---
 
 ## What this collection is for
 
-Bioinformatics work is full of procedures that are too long to retype every session and too specific to leave to a general model: gene-prediction choices for unusual genomes, siRNA design from a conserved mRNA window, all-atom RNA molecular dynamics with a particular force field, or a methylation-plus-classifier pipeline for a named disease. A skill captures one of those procedures once — tools, parameters, decision rules, anti-patterns, and a worked example — so the agent can reuse it instead of improvising.
+Bioinformatics work is full of procedures that are too long to retype every session and too specific to leave to a general model: gene-prediction choices for unusual genomes, an RNA-seq teaching lab (BLAST → Bowtie → TopHat → Cufflinks → edgeR → GSEA), siRNA design from a conserved mRNA window, all-atom RNA molecular dynamics, or a methylation-plus-classifier pipeline for a named disease. A skill captures one of those procedures once — tools, parameters, decision rules, anti-patterns, and a worked example — so the agent can reuse it instead of improvising.
 
 Typical uses:
 
 - Run a documented research pipeline on a new organism, gene, RNA sequence, or cohort
-- Consult a knowledge base (for example a dissertation chapter) while designing an analysis
+- Consult a knowledge base (dissertation chapter, lab protocol, cheatsheet) while designing an analysis
+- Teach or re-run a course lab with the same commands and file formats
 - Keep lab methods versioned next to the prompts that teach an agent how to execute them
 - Share the same workflow across Claude Code, Grok, Cursor, or Codex without rewriting it
 
-The collection is **additive**. Folders are independent. A docking skill, a metagenomics skill, a teaching-material skill, or a database-access skill can sit beside the existing ones without changing how the library is installed.
+The collection is **additive**. Folders are independent. A docking skill, a metagenomics skill, a phylogenetics skill, or a database-access skill can sit beside the existing ones without changing how the library is installed. Method A below is written so that a new folder is discovered on the next skill reload; you do not edit this README in order for the agent to see it.
 
 ---
 
@@ -30,11 +31,12 @@ The collection is **additive**. Folders are independent. A docking skill, a meta
 | Folder | Skill name | What it encodes |
 |--------|------------|-----------------|
 | [`parikesit-protein-domains/`](parikesit-protein-domains/) | `parikesit-protein-domains` | Knowledge base from Dr. Arli Aditya Parikesit's PhD dissertation, *Evolutionary Analysis of the Protein Domain Distribution in Eukaryotes* (University of Leipzig, 2012). ADD pipeline, AUGUSTUS vs GENSCAN, HMMER/Pfam/SUPERFAMILY annotation, domain co-occurrence and avoidance. |
+| [`parikesit-transcriptomics-protocol/`](parikesit-transcriptomics-protocol/) | `parikesit-transcriptomics-protocol` | Knowledge base from *Transcriptomics Computational Protocol* (BI021 lab, i3L Press, 2022) by Parikesit & Agustriawan. Six sessions: Linux + BLAST+, Bowtie/Bowtie2, TopHat spliced alignment, Cufflinks/FPKM, RNA-seq CPM filtering in R (edgeR), GSEA. |
 | [`siRNA-Skills/`](siRNA-Skills/) | `sirna-computational-design-pipeline-universal` | End-to-end computational siRNA design and RNA–RNA docking for any target gene in any organism (14 steps: retrieval → MSA → phylogeny → RNAxs → 2D/3D structure → HNADOCK → PLIP). Validated on SARS-CoV-2 Spike mRNA; generalised beyond that case. |
 | [`siRNA-Skills/SKILL_openmm_sirna_md.md`](siRNA-Skills/SKILL_openmm_sirna_md.md) | `openmm-sirna-md` | All-atom NVT molecular dynamics of an siRNA guide strand or short ssRNA in OpenMM (AMBER14 + GBn2 implicit solvent): fiber geometry, pre-relaxation, minimisation, production, backbone RMSD. |
 | [`alzheimer-epigenetics-ai-pipeline/`](alzheimer-epigenetics-ai-pipeline/) | `alzheimer-epigenetics-ai-pipeline` | Integrated AD detection pipeline: DMR analysis of blood methylation (GSE244352) plus MLP classification of brain microarray (GSE48350, GSE11882) on APP, PSEN1, PSEN2, APOE, MAPT, and TREM2. Mey et al. (2025). |
 
-These are **current deposits**, not a closed catalogue. Drop another folder at the root (or inside a family directory) when a new method is ready. The Alzheimer skill is an example of that: it arrived after the protein-domain and siRNA holdings, and the install story did not change.
+These are **current deposits**, not a closed catalogue. Drop another folder at the root (or inside a family directory) when a new method is ready. The transcriptomics protocol and the Alzheimer pipeline both arrived after the first holdings; neither required a new install mechanism. The next skill will be the same.
 
 ---
 
@@ -42,17 +44,23 @@ These are **current deposits**, not a closed catalogue. Drop another folder at t
 
 ```
 Bioinformatics-Skills/
-├── README.md                          ← you are here
-├── parikesit-protein-domains/         ← knowledge-base skill
+├── README.md                            ← you are here
+├── parikesit-protein-domains/           ← dissertation knowledge base
 │   ├── SKILL.md
 │   ├── chapters/
 │   ├── cheatsheet.md
 │   ├── glossary.md
 │   └── patterns.md
-├── siRNA-Skills/                      ← family folder (related RNA methods)
-│   ├── SKILL.md                       ← universal siRNA design pipeline
-│   └── SKILL_openmm_sirna_md.md       ← OpenMM MD companion skill
-└── alzheimer-epigenetics-ai-pipeline/ ← disease-application pipeline
+├── parikesit-transcriptomics-protocol/  ← teaching-lab protocol
+│   ├── SKILL.md
+│   ├── chapters/
+│   ├── cheatsheet.md
+│   ├── glossary.md
+│   └── patterns.md
+├── siRNA-Skills/                        ← family folder (related RNA methods)
+│   ├── SKILL.md                         ← universal siRNA design pipeline
+│   └── SKILL_openmm_sirna_md.md         ← OpenMM MD companion skill
+└── alzheimer-epigenetics-ai-pipeline/   ← disease-application pipeline
     └── SKILL.md
 ```
 
@@ -66,9 +74,9 @@ A skill directory is valid when it contains YAML frontmatter with at least `name
 
 - An AI coding agent that reads Agent Skills (`SKILL.md` files). No skill runtime is required.
 - Git, to clone or update the library.
-- Optional, per skill: the scientific tools named inside that skill (Python packages, web servers, desktop programs). Installing the library does **not** install AUGUSTUS, OpenMM, TensorFlow, RNAxs, or HMMER. Those are pulled in only when you actually run that workflow.
+- Optional, per skill: the scientific tools named inside that skill (Python packages, web servers, desktop programs). Installing the library does **not** install AUGUSTUS, BLAST+, Bowtie, TopHat, OpenMM, TensorFlow, RNAxs, or HMMER. Those are pulled in only when you actually run that workflow.
 
-Python 3.10+ covers the OpenMM and Alzheimer skills. The protein-domain and siRNA-design skills mix local tools with public web servers; see each `SKILL.md` for the list.
+Python 3.10+ covers the OpenMM and Alzheimer skills. The transcriptomics protocol also needs R (edgeR) and the classic NGS toolchain. The protein-domain and siRNA-design skills mix local tools with public web servers; see each `SKILL.md` for the list.
 
 ---
 
@@ -142,6 +150,10 @@ REPO="/absolute/path/to/Bioinformatics-Skills"
 # Protein-domain knowledge base (already a standard skill folder)
 ln -s "$REPO/parikesit-protein-domains" "$SKILLS_HOME/parikesit-protein-domains"
 
+# Transcriptomics teaching-lab protocol
+ln -s "$REPO/parikesit-transcriptomics-protocol" \
+  "$SKILLS_HOME/parikesit-transcriptomics-protocol"
+
 # Alzheimer epigenetics + MLP pipeline
 ln -s "$REPO/alzheimer-epigenetics-ai-pipeline" \
   "$SKILLS_HOME/alzheimer-epigenetics-ai-pipeline"
@@ -192,6 +204,8 @@ pip install openmm pdbfixer numpy matplotlib
 
 Protein-domain ADD pipeline (when executing it, not when only consulting the knowledge base): AUGUSTUS, HMMER3, bedtools, Pfam / SUPERFAMILY HMM libraries.
 
+Transcriptomics teaching lab (when running the BI021 protocol, not when only consulting the chapters): BLAST+, Bowtie / Bowtie2, TopHat, Cufflinks, samtools, R with edgeR, GSEA desktop. Modern substitutes (HISAT2, StringTie, STAR, featureCounts, fgsea) are noted inside that skill.
+
 siRNA design pipeline: NCBI access plus the web servers listed in that skill (MAFFT, RNAxs, RNAfold, iFoldRNA, HNADOCK, PLIP, and others). Many steps are browser-based; no single conda environment covers the whole 14-step path.
 
 Alzheimer epigenetics + MLP pipeline:
@@ -209,6 +223,7 @@ You do not have to name the file. Describe the task in ordinary language; the `d
 Examples:
 
 - “Apply the ADD pipeline logic to compare domain co-occurrence in these two protist genomes.”
+- “Walk the BI021 transcriptomics lab: index with Bowtie2, map with TopHat, assemble with Cufflinks, then CPM-filter in edgeR.”
 - “Design siRNA against gene X in organism Y and walk the 14-step pipeline.”
 - “Run all-atom MD on this 19-nt guide strand with AMBER14 and GBn2.”
 - “Run DMR analysis and MLP classification for Alzheimer’s on APP, PSEN1, PSEN2, APOE, MAPT, and TREM2.”
@@ -252,7 +267,7 @@ This repository is meant to grow. A new method belongs here when it is a repeata
 
 7. After a new deposit, Method A users get it on the next skill reload. Method B users need a new symlink for that skill.
 
-Suggested families that would fit this library later, without any change to the install story: sequence analysis, structural bioinformatics, cheminformatics, phylogenetics, transcriptomics, molecular dynamics, teaching materials, database access, and manuscript-side research ops.
+Suggested families that would still fit, without any change to the install story: sequence analysis, structural bioinformatics, cheminformatics, phylogenetics, further transcriptomics (DESeq2, HISAT2/StringTie), molecular dynamics, more teaching labs, database access, and manuscript-side research ops.
 
 ---
 
@@ -271,19 +286,14 @@ A good deposit is a procedure, not a paper reprint.
 | Anti-patterns | What not to do (annotation bias, off-targets, wrong gene finder, …) |
 | Scope limits | What the skill does not cover |
 
-Three shapes already in this library, all valid:
+Shapes already in this library, all valid:
 
-- **Knowledge base** — `parikesit-protein-domains` (chapters you consult)
+- **Knowledge base** — `parikesit-protein-domains` (dissertation chapters you consult)
+- **Teaching-lab protocol** — `parikesit-transcriptomics-protocol` (course sessions with canonical commands)
 - **General pipeline** — the siRNA skills (steps you execute on any target)
 - **Disease application** — `alzheimer-epigenetics-ai-pipeline` (a named cohort, gene set, and paper)
 
-Mix them as the work requires. A future deposit can be any of these, or something else (a database client, a teaching pack, a review checklist).
-
----
-
-## AI Assistance Disclaimer
-
-This codebase was developed with the assistance of Claude Code and Grok CLI. While the AI provided code generation, debugging, and structural support, the human developer maintains full responsibility for reviewing, testing, and maintaining all content and functionality.
+Mix them as the work requires. A future deposit can be any of these, or something else (a database client, another course pack, a review checklist).
 
 ---
 
@@ -300,3 +310,6 @@ If you use a skill in published work, cite the scientific paper or thesis named 
 ## License
 
 Individual skills may declare their own license in frontmatter (OpenMM MD and the Alzheimer pipeline are MIT). Unless a skill file says otherwise, treat the markdown in this library as documentation you may copy into an agent skills directory for research use. Add a repository-level `LICENSE` when you publish the collection.
+
+## AI Assistance Disclaimer
+This codebase was developed with the assistance of Claude Code and Grok CLI. While the AI provided code generation, debugging, and structural support, the human developer maintains full responsibility for reviewing, testing, and maintaining all content and functionality.
