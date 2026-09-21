@@ -280,9 +280,11 @@ Three shapes already in this library, all valid:
 Mix them as the work requires. A future deposit can be any of these, or something else (a database client, a teaching pack, a review checklist).
 
 ---
+
 ## AI Assistance Disclaimer
 
 This codebase was developed with the assistance of Claude Code and Grok CLI. While the AI provided code generation, debugging, and structural support, the human developer maintains full responsibility for reviewing, testing, and maintaining all content and functionality.
+
 ---
 
 ## Author
