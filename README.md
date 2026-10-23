@@ -6,7 +6,7 @@ This repository is not an application and does not ship a single pipeline you ru
 
 Each skill is a folder of markdown: a `SKILL.md` file plus optional chapters, cheatsheets, and reference notes. The agent reads those files when the task matches. You do not compile them. You install them by putting them on disk where the agent looks, then asking it to do the work.
 
-New skills can be deposited here at any time. The folders below are the current holdings, not the ceiling of the collection. A dissertation knowledge base, a teaching-lab protocol, an RNA-methods family, and a disease-application pipeline already sit side by side; the next deposit does not need to match any of them.
+New skills can be deposited here at any time. The folders below are the current holdings, not the ceiling of the collection. A dissertation knowledge base, a teaching-lab protocol, an RNA-methods family, a disease-application pipeline, a teaching app for AI equations, and a PRD generator for health AI already sit side by side; the next deposit does not need to match any of them.
 
 ---
 
@@ -35,8 +35,11 @@ The collection is **additive**. Folders are independent. A docking skill, a meta
 | [`siRNA-Skills/`](siRNA-Skills/) | `sirna-computational-design-pipeline-universal` | End-to-end computational siRNA design and RNA–RNA docking for any target gene in any organism (14 steps: retrieval → MSA → phylogeny → RNAxs → 2D/3D structure → HNADOCK → PLIP). Validated on SARS-CoV-2 Spike mRNA; generalised beyond that case. |
 | [`siRNA-Skills/SKILL_openmm_sirna_md.md`](siRNA-Skills/SKILL_openmm_sirna_md.md) | `openmm-sirna-md` | All-atom NVT molecular dynamics of an siRNA guide strand or short ssRNA in OpenMM (AMBER14 + GBn2 implicit solvent): fiber geometry, pre-relaxation, minimisation, production, backbone RMSD. |
 | [`alzheimer-epigenetics-ai-pipeline/`](alzheimer-epigenetics-ai-pipeline/) | `alzheimer-epigenetics-ai-pipeline` | Integrated AD detection pipeline: DMR analysis of blood methylation (GSE244352) plus MLP classification of brain microarray (GSE48350, GSE11882) on APP, PSEN1, PSEN2, APOE, MAPT, and TREM2. Mey et al. (2025). |
+| [`structure-based-drug-discovery-with-ANM/`](structure-based-drug-discovery-with-ANM/) | `structure-based-drug-discovery-with-ANM` | Structure-based screening against a PDB target: receptor and ligand prep, AutoDock Vina docking, OpenMM MD, ADMET descriptors, Anisotropic Network Model (ProDy) pocket dynamics, and MCDA ranking of hits. Full source code is embedded in the skill's Appendix A. |
+| [`nietzschean-ai-equations/`](nietzschean-ai-equations/) | `nietzschean-ai-equations` | Builds and extends the "Beyond Good and Computation" Streamlit teaching app. Ten AI/optimisation equations (softmax, backprop, attention, KL, cross-entropy, linear regression, gradient descent, linear programming, ADAM, MLE), each with runnable NumPy/PyTorch/SciPy code, an interactive demo, a bioinformatics use case, and a Nietzschean framing. Lists the app's known defects to fix or disclose. |
+| [`prd-ai-life-sciences/`](prd-ai-life-sciences/) | `prd-ai-life-sciences` | Product Requirements Document for AI/ML products in life sciences and health (clinical AI / SaMD, drug-discovery AI, omics platforms, digital health, LLM health tools). Three modes: blank 21-section .docx template, populated draft for a named product, or gap review of an existing PRD. Bundles a Node generator script and a per-section checklist. |
 
-These are **current deposits**, not a closed catalogue. Drop another folder at the root (or inside a family directory) when a new method is ready. The transcriptomics protocol and the Alzheimer pipeline both arrived after the first holdings; neither required a new install mechanism. The next skill will be the same.
+These are **current deposits**, not a closed catalogue. Drop another folder at the root (or inside a family directory) when a new method is ready. The transcriptomics protocol, the Alzheimer pipeline, the equations app, and the PRD generator all arrived after the first holdings; none required a new install mechanism. The next skill will be the same.
 
 ---
 
@@ -59,9 +62,18 @@ Bioinformatics-Skills/
 │   └── patterns.md
 ├── siRNA-Skills/                        ← family folder (related RNA methods)
 │   ├── SKILL.md                         ← universal siRNA design pipeline
-│   └── SKILL_openmm_sirna_md.md         ← OpenMM MD companion skill
-└── alzheimer-epigenetics-ai-pipeline/   ← disease-application pipeline
-    └── SKILL.md
+│   ├── SKILL_openmm_sirna_md.md         ← OpenMM MD companion skill
+│   └── references/                      ← Parikesit, Ansori & Kharisma (2022) source paper (PDF)
+├── alzheimer-epigenetics-ai-pipeline/   ← disease-application pipeline
+│   └── SKILL.md
+├── structure-based-drug-discovery-with-ANM/  ← docking + MD + ANM pipeline
+│   └── SKILL.md
+├── nietzschean-ai-equations/            ← teaching app (Streamlit)
+│   └── SKILL.md
+└── prd-ai-life-sciences/                ← document generator (health-AI PRD)
+    ├── SKILL.md
+    ├── references/section_guide.md
+    └── scripts/build_prd_template.js
 ```
 
 **Convention for new deposits:** prefer one directory per skill, with `SKILL.md` at the top of that directory. Related skills may share a family folder (as `siRNA-Skills/` does) when they form a single research line. Supporting files — chapters, scripts, reference tables — live next to `SKILL.md`, not at the repository root.
@@ -76,7 +88,7 @@ A skill directory is valid when it contains YAML frontmatter with at least `name
 - Git, to clone or update the library.
 - Optional, per skill: the scientific tools named inside that skill (Python packages, web servers, desktop programs). Installing the library does **not** install AUGUSTUS, BLAST+, Bowtie, TopHat, OpenMM, TensorFlow, RNAxs, or HMMER. Those are pulled in only when you actually run that workflow.
 
-Python 3.10+ covers the OpenMM and Alzheimer skills. The transcriptomics protocol also needs R (edgeR) and the classic NGS toolchain. The protein-domain and siRNA-design skills mix local tools with public web servers; see each `SKILL.md` for the list.
+Python 3.10+ covers the OpenMM, Alzheimer, and equations-app skills. The PRD skill needs Node.js with the `docx` npm package. The transcriptomics protocol also needs R (edgeR) and the classic NGS toolchain. The protein-domain and siRNA-design skills mix local tools with public web servers; see each `SKILL.md` for the list.
 
 ---
 
@@ -167,6 +179,16 @@ ln -s "$REPO/siRNA-Skills/SKILL.md" \
 mkdir -p "$SKILLS_HOME/openmm-sirna-md"
 ln -s "$REPO/siRNA-Skills/SKILL_openmm_sirna_md.md" \
   "$SKILLS_HOME/openmm-sirna-md/SKILL.md"
+
+# Structure-based drug discovery with ANM
+ln -s "$REPO/structure-based-drug-discovery-with-ANM" \
+  "$SKILLS_HOME/structure-based-drug-discovery-with-ANM"
+
+# Nietzschean AI equations app
+ln -s "$REPO/nietzschean-ai-equations" "$SKILLS_HOME/nietzschean-ai-equations"
+
+# Health-AI PRD generator
+ln -s "$REPO/prd-ai-life-sciences" "$SKILLS_HOME/prd-ai-life-sciences"
 ```
 
 Symlinks keep a single source of truth in this repository. Copies work too, but they drift when the deposit is updated.
@@ -214,6 +236,17 @@ Alzheimer epigenetics + MLP pipeline:
 pip install streamlit tensorflow scikit-learn pandas numpy plotly matplotlib seaborn scipy requests GEOparse
 ```
 
+Structure-based drug discovery with ANM: Python 3.10+, rdkit, pandas, numpy, matplotlib, prody, openmm, AutoDock Vina and ADFR `prepare_ligand4.py`; AmberTools for MM-PBSA.
+
+Nietzschean AI equations app: Streamlit, NumPy, Matplotlib, SciPy, and PyTorch for the backprop/ADAM snippets. The skill warns that the app's pinned versions (torch 2.0.1, streamlit 1.28.1) may not install on Python 3.12+; check before pinning.
+
+Health-AI PRD generator:
+
+```bash
+npm install docx
+node prd-ai-life-sciences/scripts/build_prd_template.js PRD.docx --product "Name" --org "Org"
+```
+
 ---
 
 ## Using a skill
@@ -227,6 +260,8 @@ Examples:
 - “Design siRNA against gene X in organism Y and walk the 14-step pipeline.”
 - “Run all-atom MD on this 19-nt guide strand with AMBER14 and GBn2.”
 - “Run DMR analysis and MLP classification for Alzheimer’s on APP, PSEN1, PSEN2, APOE, MAPT, and TREM2.”
+- “Add a KL-divergence page to the Beyond Good and Computation app, with a transcriptomics example.”
+- “Write a PRD for our TB drug-resistance variant classifier.” / “Review this PRD for missing sections.”
 
 You can also invoke a skill by name as a slash command when the agent supports it (`/parikesit-protein-domains`, `/openmm-sirna-md`, and so on).
 
@@ -292,8 +327,10 @@ Shapes already in this library, all valid:
 - **Teaching-lab protocol** — `parikesit-transcriptomics-protocol` (course sessions with canonical commands)
 - **General pipeline** — the siRNA skills (steps you execute on any target)
 - **Disease application** — `alzheimer-epigenetics-ai-pipeline` (a named cohort, gene set, and paper)
+- **Teaching app** — `nietzschean-ai-equations` (a Streamlit app built and extended page by page)
+- **Document generator** — `prd-ai-life-sciences` (a bundled script plus a review checklist)
 
-Mix them as the work requires. A future deposit can be any of these, or something else (a database client, another course pack, a review checklist).
+Mix them as the work requires. A future deposit can be any of these, or something else (a database client, another course pack).
 
 ---
 
@@ -309,7 +346,7 @@ If you use a skill in published work, cite the scientific paper or thesis named 
 
 ## License
 
-Individual skills may declare their own license in frontmatter (OpenMM MD and the Alzheimer pipeline are MIT). Unless a skill file says otherwise, treat the markdown in this library as documentation you may copy into an agent skills directory for research use. Add a repository-level `LICENSE` when you publish the collection.
+Individual skills may declare their own license in frontmatter (OpenMM MD and the Alzheimer pipeline are MIT). Unless a skill file says otherwise, the repository is released under the MIT License (see [`LICENSE`](LICENSE)).
 
 ## AI Assistance Disclaimer
 This codebase was developed with the assistance of Claude Code and Grok CLI. While the AI provided code generation, debugging, and structural support, the human developer maintains full responsibility for reviewing, testing, and maintaining all content and functionality.
