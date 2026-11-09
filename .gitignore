@@ -1,2 +1,12 @@
 .DS_Store
 .claude/
+
+# Source book for the drug-interaction-check skill, kept local only.
+# "Utilizing Information System to Tackle Drug-Drug Interaction in Clinical
+# Setting" (i3L Press, 2021) is a published book, not open-licensed material,
+# so it is not redistributed in this public repository. The skill does not
+# need it at runtime: the facts it relies on are summarised, with page
+# numbers, in references/book-notes.md inside drug-interaction-check.skill.
+# Only this file is ignored; other reference PDFs (e.g. siRNA-Skills/references/)
+# stay tracked.
+DDI-i3L/Drug-Drug-Interaction.pdf
