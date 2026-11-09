@@ -6,7 +6,7 @@ This repository is not an application and does not ship a single pipeline you ru
 
 Each skill is a folder of markdown: a `SKILL.md` file plus optional chapters, cheatsheets, and reference notes. The agent reads those files when the task matches. You do not compile them. You install them by putting them on disk where the agent looks, then asking it to do the work.
 
-New skills can be deposited here at any time. The folders below are the current holdings, not the ceiling of the collection. A dissertation knowledge base, a teaching-lab protocol, an RNA-methods family, a disease-application pipeline, a teaching app for AI equations, and a PRD generator for health AI already sit side by side; the next deposit does not need to match any of them.
+New skills can be deposited here at any time. The folders below are the current holdings, not the ceiling of the collection. A dissertation knowledge base, a teaching-lab protocol, an RNA-methods family, a disease-application pipeline, a teaching app for AI equations, a PRD generator for health AI, a drug-interaction checker, and a journal finder for simulation papers already sit side by side; the next deposit does not need to match any of them.
 
 ---
 
@@ -38,8 +38,12 @@ The collection is **additive**. Folders are independent. A docking skill, a meta
 | [`structure-based-drug-discovery-with-ANM/`](structure-based-drug-discovery-with-ANM/) | `structure-based-drug-discovery-with-ANM` | Structure-based screening against a PDB target: receptor and ligand prep, AutoDock Vina docking, OpenMM MD, ADMET descriptors, Anisotropic Network Model (ProDy) pocket dynamics, and MCDA ranking of hits. Full source code is embedded in the skill's Appendix A. |
 | [`nietzschean-ai-equations/`](nietzschean-ai-equations/) | `nietzschean-ai-equations` | Builds and extends the "Beyond Good and Computation" Streamlit teaching app. Ten AI/optimisation equations (softmax, backprop, attention, KL, cross-entropy, linear regression, gradient descent, linear programming, ADAM, MLE), each with runnable NumPy/PyTorch/SciPy code, an interactive demo, a bioinformatics use case, and a Nietzschean framing. Lists the app's known defects to fix or disclose. |
 | [`prd-ai-life-sciences/`](prd-ai-life-sciences/) | `prd-ai-life-sciences` | Product Requirements Document for AI/ML products in life sciences and health (clinical AI / SaMD, drug-discovery AI, omics platforms, digital health, LLM health tools). Three modes: blank 21-section .docx template, populated draft for a named product, or gap review of an existing PRD. Bundles a Node generator script and a per-section checklist. |
+| [`DDI-i3L/drug-interaction-check.skill`](DDI-i3L/) | `drug-interaction-check` | Structured, source-backed answers on drug-drug, drug-food, drug-herb, and drug-supplement interactions (PK vs PD, CYP450, P-gp). Resolves brands to active ingredients, grades severity as the source does, and answers in English or Bahasa Indonesia. Background from *Utilizing Information System to Tackle Drug-Drug Interaction in Clinical Setting* (i3L Press, 2021); the book PDF sits in the same folder. Supports, never replaces, prescriber or pharmacist review. |
+| [`biosim journal finder/biosim-journal-finder.skill`](biosim%20journal%20finder/) | `biosim-journal-finder` | Shortlists and verifies target journals for biomolecular simulation and computational structural biology manuscripts (MD, free energy, docking, ML potentials, structure-prediction benchmarks). Checks fee model (diamond OA, APC, waivers), PubMed, Scopus/SJR, and WoS/JCR per journal, marks each claim verified or not, and offers a relaxation ladder when the filter intersection is empty. |
 
-These are **current deposits**, not a closed catalogue. Drop another folder at the root (or inside a family directory) when a new method is ready. The transcriptomics protocol, the Alzheimer pipeline, the equations app, and the PRD generator all arrived after the first holdings; none required a new install mechanism. The next skill will be the same.
+These are **current deposits**, not a closed catalogue. Drop another folder at the root (or inside a family directory) when a new method is ready. The transcriptomics protocol, the Alzheimer pipeline, the equations app, the PRD generator, the DDI checker, and the journal finder all arrived after the first holdings; none required a new install mechanism. The next skill will be the same.
+
+**Packaged deposits.** `drug-interaction-check` and `biosim-journal-finder` are stored as `.skill` files, which are zip archives holding `<skill-name>/SKILL.md` plus a `references/` folder. Agents do not read inside the zip, so unzip them before installing (see Method B).
 
 ---
 
@@ -70,10 +74,17 @@ Bioinformatics-Skills/
 │   └── SKILL.md
 ├── nietzschean-ai-equations/            ← teaching app (Streamlit)
 │   └── SKILL.md
-└── prd-ai-life-sciences/                ← document generator (health-AI PRD)
-    ├── SKILL.md
-    ├── references/section_guide.md
-    └── scripts/build_prd_template.js
+├── prd-ai-life-sciences/                ← document generator (health-AI PRD)
+│   ├── SKILL.md
+│   ├── references/section_guide.md
+│   └── scripts/build_prd_template.js
+├── DDI-i3L/                             ← clinical decision support (packaged)
+│   ├── drug-interaction-check.skill     ← zip: SKILL.md + references/book-notes.md
+│   ├── Drug-Drug-Interaction.pdf        ← source book (i3L Press, 2021)
+│   └── Claude outputs/                  ← skill-creator review reports (HTML)
+└── biosim journal finder/               ← research ops / publishing (packaged)
+    └── biosim-journal-finder.skill      ← zip: SKILL.md + references/ (venue pools,
+                                            verification playbook, worked example)
 ```
 
 **Convention for new deposits:** prefer one directory per skill, with `SKILL.md` at the top of that directory. Related skills may share a family folder (as `siRNA-Skills/` does) when they form a single research line. Supporting files — chapters, scripts, reference tables — live next to `SKILL.md`, not at the repository root.
@@ -88,7 +99,7 @@ A skill directory is valid when it contains YAML frontmatter with at least `name
 - Git, to clone or update the library.
 - Optional, per skill: the scientific tools named inside that skill (Python packages, web servers, desktop programs). Installing the library does **not** install AUGUSTUS, BLAST+, Bowtie, TopHat, OpenMM, TensorFlow, RNAxs, or HMMER. Those are pulled in only when you actually run that workflow.
 
-Python 3.10+ covers the OpenMM, Alzheimer, and equations-app skills. The PRD skill needs Node.js with the `docx` npm package. The transcriptomics protocol also needs R (edgeR) and the classic NGS toolchain. The protein-domain and siRNA-design skills mix local tools with public web servers; see each `SKILL.md` for the list.
+Python 3.10+ covers the OpenMM, Alzheimer, and equations-app skills. The PRD skill needs Node.js with the `docx` npm package. The DDI checker and journal finder need no local software, but they work best when the agent has web search or literature tools (PubMed, ChEMBL) connected; without them they must flag their answers as unverified. The transcriptomics protocol also needs R (edgeR) and the classic NGS toolchain. The protein-domain and siRNA-design skills mix local tools with public web servers; see each `SKILL.md` for the list.
 
 ---
 
@@ -111,7 +122,7 @@ Pick one of the methods below. Method A is the least work if you want the **whol
 
 #### Method A — Point the agent at this folder (recommended for a growing library)
 
-The agent walks the tree, finds every `SKILL.md`, and picks up new deposits automatically the next time it starts (or when skills reload from disk).
+The agent walks the tree, finds every `SKILL.md`, and picks up new deposits automatically the next time it starts (or when skills reload from disk). Packaged `.skill` deposits are the exception: unzip them in place first (`unzip DDI-i3L/drug-interaction-check.skill -d DDI-i3L/` and `unzip "biosim journal finder/biosim-journal-finder.skill" -d "biosim journal finder/"`) so a `SKILL.md` exists on disk.
 
 **Grok** — add the library path in `~/.grok/config.toml`:
 
@@ -189,7 +200,14 @@ ln -s "$REPO/nietzschean-ai-equations" "$SKILLS_HOME/nietzschean-ai-equations"
 
 # Health-AI PRD generator
 ln -s "$REPO/prd-ai-life-sciences" "$SKILLS_HOME/prd-ai-life-sciences"
+
+# Packaged skills: unzip straight into the skills directory
+# (each archive already contains its own <skill-name>/ folder)
+unzip "$REPO/DDI-i3L/drug-interaction-check.skill" -d "$SKILLS_HOME"
+unzip "$REPO/biosim journal finder/biosim-journal-finder.skill" -d "$SKILLS_HOME"
 ```
+
+Unzipped copies do not follow updates to the archive; re-run `unzip -o` after a new `.skill` is deposited. Claude.ai and Claude Desktop also accept a `.skill` file directly through the skill upload in Settings.
 
 Symlinks keep a single source of truth in this repository. Copies work too, but they drift when the deposit is updated.
 
@@ -262,6 +280,8 @@ Examples:
 - “Run DMR analysis and MLP classification for Alzheimer’s on APP, PSEN1, PSEN2, APOE, MAPT, and TREM2.”
 - “Add a KL-divergence page to the Beyond Good and Computation app, with a transcriptomics example.”
 - “Write a PRD for our TB drug-resistance variant classifier.” / “Review this PRD for missing sections.”
+- “Can my patient take rifampicin with warfarin?” / “Apakah simvastatin aman diminum dengan jus grapefruit?”
+- “Where should I submit this RNA MD benchmark? It must be diamond OA, Scopus Q1, and in PubMed.”
 
 You can also invoke a skill by name as a slash command when the agent supports it (`/parikesit-protein-domains`, `/openmm-sirna-md`, and so on).
 
@@ -329,6 +349,8 @@ Shapes already in this library, all valid:
 - **Disease application** — `alzheimer-epigenetics-ai-pipeline` (a named cohort, gene set, and paper)
 - **Teaching app** — `nietzschean-ai-equations` (a Streamlit app built and extended page by page)
 - **Document generator** — `prd-ai-life-sciences` (a bundled script plus a review checklist)
+- **Clinical decision support** — `drug-interaction-check` (a fixed answer format, evidence hierarchy, and safety rules)
+- **Research ops** — `biosim-journal-finder` (a verification playbook for venue selection)
 
 Mix them as the work requires. A future deposit can be any of these, or something else (a database client, another course pack).
 
