@@ -1,0 +1,14 @@
+{
+  "eval_name": "modular-tabs",
+  "prompt": "Build a Shiny app for my R course with a navbar and three tabs: 'Data' (pick a built-in dataset: iris, mtcars or ToothGrowth, and show it), 'Plot' (histogram of a chosen numeric column of that dataset, with a bins slider) and 'Model' (fit a linear model y ~ x on two chosen columns, show the summary; pretend the fit is slow and show a progress bar while it runs, triggered by a button). Each tab should be its own Shiny module. Users should be able to bookmark the app state via the URL. Folder: modules_app.",
+  "assertions": [
+    "Running the skill's scripts/check_app.R on the produced app directory reports 0 errors.",
+    "There are three module pairs (UI function using NS(id) + server function using moduleServer()), one per tab; callModule() is not used.",
+    "The selected dataset from the Data module is returned as a reactive and passed into the Plot and Model modules (not re-selected in each tab, not read via a global variable).",
+    "In the Plot and Model tabs, column choices update when the dataset changes, and only numeric columns are offered where a numeric column is required.",
+    "The model fit runs only when its button is clicked (bindEvent/eventReactive/observeEvent) and shows progress via withProgress/incProgress, Progress$new, or ExtendedTask with input_task_button.",
+    "URL bookmarking is enabled (enableBookmarking('url') or shinyApp(..., enableBookmarking = 'url')) and the UI is a function of request; a bookmark button or automatic URL update is present.",
+    "Choosing the same column for x and y in the Model tab produces a readable message instead of fitting y ~ y (which yields a warning and a meaningless summary).",
+    "Clicking Fit while the x/y column inputs are still NULL does not raise an R error (guarded by req() or equivalent that handles NULL)."
+  ]
+}

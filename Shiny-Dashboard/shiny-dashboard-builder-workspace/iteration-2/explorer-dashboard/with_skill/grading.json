@@ -1,0 +1,45 @@
+{
+  "expectations": [
+    {
+      "text": "Running the skill's scripts/check_app.R on the produced app directory reports 0 errors.",
+      "passed": true,
+      "evidence": "check_app.R: RESULT: 0 error(s), 0 warning(s)."
+    },
+    {
+      "text": "The scatter plot's plotOutput has a brush argument and the table is computed with brushedPoints() (or equivalent filtering on input$<brush>) from the same filtered data the plot uses.",
+      "passed": true,
+      "evidence": "app.R:26 plotOutput(\"scatter\", brush = brushOpts(\"scatter_brush\", resetOnNew = TRUE)); app.R:54 brushed <- reactive(brushedPoints(filtered(), input$scatter_brush)); plot uses filtered() at app.R:47. testServer with fake brush wt 2.5-3.5, mpg 15-25, cyl 4/6 -> 10 rows."
+    },
+    {
+      "text": "The downloadHandler writes the same brushed-and-filtered rows that the table shows, not the full or only-filtered dataset.",
+      "passed": true,
+      "evidence": "app.R:66 write.csv(brushed(), file, row.names = FALSE). testServer: CSV 10 rows, identical car list to brushed() (filtered had 18)."
+    },
+    {
+      "text": "The cylinder/transmission filtering is done once in a single reactive that both the plot and the table read, not repeated inside each render function.",
+      "passed": true,
+      "evidence": "app.R:36-42 single filtered <- reactive(...) with cyl/am filter; renderPlot (47) and brushed (54) both read filtered(); no filtering inside render functions."
+    },
+    {
+      "text": "Car names (mtcars row names) appear in the table and the CSV, e.g. as a column, rather than being silently dropped.",
+      "passed": true,
+      "evidence": "app.R:9 cars <- data.frame(car = rownames(mtcars), mtcars, row.names = NULL); table data and CSV columns start with 'car' (e.g. 'Mazda RX4', 'Merc 240D')."
+    },
+    {
+      "text": "When the user unticks every cylinder option (or every transmission option), the plot and table show a readable message produced by validate(need(...)) instead of an empty plot, a blank area, or an R error.",
+      "passed": true,
+      "evidence": "app.R:37-40 validate(need(length(input$cyl) > 0, ...), need(length(input$am) > 0, ...)) in filtered(). testServer cyl=character(0): scatter and brushed_table raise validation 'Select at least one cylinder count.'; am=character(0): 'Select at least one transmission type.'"
+    },
+    {
+      "text": "The table and the downloaded CSV contain only mtcars columns plus a car-name column; no helper/duplicate columns created for plotting (e.g. a relabelled transmission factor that repeats am) appear in them.",
+      "passed": true,
+      "evidence": "CSV columns: car mpg cyl disp hp drat wt qsec vs am gear carb (mtcars + car only); factor(cyl) computed inside aes() (app.R:47)."
+    }
+  ],
+  "summary": {
+    "passed": 7,
+    "failed": 0,
+    "total": 7,
+    "pass_rate": 1
+  }
+}

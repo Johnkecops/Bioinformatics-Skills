@@ -1,0 +1,7 @@
+schema_version: "1.1"
+name: explorer-dashboard
+expected_outcome: |
+  A runnable Shiny app in mtcars_app/ with cylinder and transmission filters in a
+  sidebar, a brushable weight-vs-mpg scatter plot, a table of the brushed cars that
+  follows the filters, and a CSV download of that table. The app passes a headless
+  smoke test with no errors.

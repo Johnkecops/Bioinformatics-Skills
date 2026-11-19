@@ -1,0 +1,25 @@
+---
+title: "Group summary report"
+---
+
+```{r setup, include = FALSE}
+# `params` is supplied by the app (see render_report() in app.R).
+knitr::opts_chunk$set(echo = FALSE, fig.width = 7, fig.height = 4.5, dpi = 120)
+```
+
+- **File:** `r params$file_name`
+- **Variable:** `r params$value`, grouped by `r params$group`
+- **Rows:** `r params$n_rows`, of which `r params$n_missing` have a missing `r params$value` (excluded from n, mean and sd)
+- **Created:** `r format(Sys.time(), "%Y-%m-%d %H:%M")`
+
+## Summary statistics
+
+```{r table}
+knitr::kable(params$table, digits = 2, row.names = FALSE)
+```
+
+## Boxplot
+
+```{r boxplot}
+print(params$plot)
+```

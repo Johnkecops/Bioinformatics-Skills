@@ -1,0 +1,840 @@
+{
+  "exit_reason": "max_iterations (3)",
+  "original_description": "Build, extend, debug or explain R Shiny apps and dashboards by assembling proven patterns from a bundled catalog of ~170 RStudio Shiny examples (layouts, widgets, reactivity, plots, tables, file upload/download, Rmarkdown reports, modules, dynamic UI, plot brushing/clicking, async, bookmarking, custom JavaScript), modernized to bslib and current Shiny idioms, with a script that smoke-tests the finished app headlessly. Use this whenever the user wants a Shiny app, an interactive R dashboard, a web front-end for an R analysis, or asks how to do something in Shiny (add a download button, tabs, filters, a reactive, a module, a map, an upload form, a progress bar), even if they don't say \"Shiny\" but are working in R and want something interactive in a browser. Also use for Shiny teaching material and for fixing broken Shiny code.",
+  "best_description": "Build, extend, debug or explain R Shiny apps and dashboards by assembling proven patterns from a bundled catalog of ~170 RStudio Shiny examples (layouts, widgets, reactivity, plots, tables, file upload/download, Rmarkdown reports, modules, dynamic UI, plot brushing/clicking, async, bookmarking, custom JavaScript), modernized to bslib and current Shiny idioms, with a script that smoke-tests the finished app headlessly. Use this whenever the user wants a Shiny app, an interactive R dashboard, a web front-end for an R analysis, or asks how to do something in Shiny (add a download button, tabs, filters, a reactive, a module, a map, an upload form, a progress bar), even if they don't say \"Shiny\" but are working in R and want something interactive in a browser. Also use for Shiny teaching material and for fixing broken Shiny code.",
+  "best_score": "4/8",
+  "best_train_score": "6/12",
+  "best_test_score": "4/8",
+  "final_description": "Use this skill whenever the work touches R Shiny code or should produce one: any mention of shiny, app.R, ui.R/server.R, input$/output$, reactive(), modules or bslib, or any request for an interactive browser dashboard, explorer or tool in R for colleagues, students or a lab, even when \"Shiny\" is never named. Covers building an app from a CSV or data frame with filters, dropdowns, date ranges, value boxes, plots and tables; refactoring or splitting large apps into modules; upgrading old Shiny code (shinythemes, callModule, shinydashboard) to bslib; plot click, hover or brush and other interactivity; and diagnosing Shiny errors such as reactive-context failures. Invoke it before writing or editing the code, even for small fixes. It includes tested templates and a checker that catches broken UI/server wiring. Skip it for Python dashboards, BI tools, static plots, standalone HTML widgets and non-Shiny R analysis.",
+  "iterations_run": 3,
+  "holdout": 0.4,
+  "train_size": 12,
+  "test_size": 8,
+  "history": [
+    {
+      "iteration": 1,
+      "description": "Build, extend, debug or explain R Shiny apps and dashboards by assembling proven patterns from a bundled catalog of ~170 RStudio Shiny examples (layouts, widgets, reactivity, plots, tables, file upload/download, Rmarkdown reports, modules, dynamic UI, plot brushing/clicking, async, bookmarking, custom JavaScript), modernized to bslib and current Shiny idioms, with a script that smoke-tests the finished app headlessly. Use this whenever the user wants a Shiny app, an interactive R dashboard, a web front-end for an R analysis, or asks how to do something in Shiny (add a download button, tabs, filters, a reactive, a module, a map, an upload form, a progress bar), even if they don't say \"Shiny\" but are working in R and want something interactive in a browser. Also use for Shiny teaching material and for fixing broken Shiny code.",
+      "train_passed": 6,
+      "train_failed": 6,
+      "train_total": 12,
+      "train_results": [
+        {
+          "query": "split my 900-line app.R into modules, one per tab (Overview, QC, Differential expression), and pass the filtered data between them",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "convert this old ui.R/server.R app that uses shinythemes and callModule to the modern bslib way, keep everything else working",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "build an interactive dashboard in R for our clinic's patient wait-time data (wait_times.csv) with date range filter, value boxes for median wait and number of visits, and a line chart by week",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "my plot in shiny should let the user click a point and then show that row's details underneath. using ggplot2. how?",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "i have a csv of qPCR Ct values (columns: sample, gene, ct, treatment) and i want my lab mates to be able to pick a gene from a dropdown and see a boxplot by treatment in their browser. we all use R. can you make that?",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "My shiny app crashes with 'Error in .getReactiveEnvironment()$currentContext: Operation not allowed without an active reactive context' when I do df <- input$file in server. here's the code: server <- function(input, output) { df <- read.csv(input$file$datapath); output$t <- renderTable(df) }",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "build a streamlit dashboard in python that reads sales.parquet and shows a bar chart by region with a sidebar filter",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "make an interactive plotly html widget of my PCA scores coloured by batch that I can email as a single html file, no server needed",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "run DESeq2 on my counts matrix (counts.tsv) with condition as the design and give me a volcano plot and the top 20 genes",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "make a static ggplot2 figure of tumour volume over time per mouse, faceted by treatment, publication style, export as 300 dpi tiff",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "Create a Power BI dashboard layout spec for the faculty's student enrolment KPIs (intake by program, retention, GPA distribution)",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "I'm writing an R package for my lab's plate-reader parsing functions. set up the DESCRIPTION, roxygen docs and testthat tests for read_plate()",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        }
+      ],
+      "test_passed": 4,
+      "test_failed": 4,
+      "test_total": 8,
+      "test_results": [
+        {
+          "query": "add a progress bar to the part of my shiny server that runs a 2 minute bootstrap, and make sure other users aren't frozen while it runs",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "For BT3126 week 9 I want a teaching example that shows students the difference between reactive(), observe() and eventReactive() \u2014 small runnable app, with comments",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "how do I add a download button to my shiny app so users can save the filtered table as an excel or csv file?",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "turn my R script that fits a dose-response curve (drc package) into a little web app where you upload data, choose the model, and get the EC50 plus a plot and a pdf report",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "how do I install R 4.5 and the tidyverse on Ubuntu 24.04 without sudo? getting 'non-zero exit status' for systemfonts",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "explain what lazy evaluation and promises mean in R function arguments, with examples of force() \u2014 it's for my advanced R lecture",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "write a parameterised R Markdown report that takes the sample sheet path as a param and renders a PDF QC summary \u2014 no app, just knit from the command line in our pipeline",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "deploy my existing shiny app to our university's ubuntu server using shiny-server and nginx with https, it already works locally",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        }
+      ],
+      "passed": 6,
+      "failed": 6,
+      "total": 12,
+      "results": [
+        {
+          "query": "split my 900-line app.R into modules, one per tab (Overview, QC, Differential expression), and pass the filtered data between them",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "convert this old ui.R/server.R app that uses shinythemes and callModule to the modern bslib way, keep everything else working",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "build an interactive dashboard in R for our clinic's patient wait-time data (wait_times.csv) with date range filter, value boxes for median wait and number of visits, and a line chart by week",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "my plot in shiny should let the user click a point and then show that row's details underneath. using ggplot2. how?",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "i have a csv of qPCR Ct values (columns: sample, gene, ct, treatment) and i want my lab mates to be able to pick a gene from a dropdown and see a boxplot by treatment in their browser. we all use R. can you make that?",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "My shiny app crashes with 'Error in .getReactiveEnvironment()$currentContext: Operation not allowed without an active reactive context' when I do df <- input$file in server. here's the code: server <- function(input, output) { df <- read.csv(input$file$datapath); output$t <- renderTable(df) }",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "build a streamlit dashboard in python that reads sales.parquet and shows a bar chart by region with a sidebar filter",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "make an interactive plotly html widget of my PCA scores coloured by batch that I can email as a single html file, no server needed",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "run DESeq2 on my counts matrix (counts.tsv) with condition as the design and give me a volcano plot and the top 20 genes",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "make a static ggplot2 figure of tumour volume over time per mouse, faceted by treatment, publication style, export as 300 dpi tiff",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "Create a Power BI dashboard layout spec for the faculty's student enrolment KPIs (intake by program, retention, GPA distribution)",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "I'm writing an R package for my lab's plate-reader parsing functions. set up the DESCRIPTION, roxygen docs and testthat tests for read_plate()",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        }
+      ]
+    },
+    {
+      "iteration": 2,
+      "description": "R Shiny expert toolkit. Load this skill FIRST for any task that writes, changes, reviews or debugs Shiny code, since it holds tested patterns, current bslib idioms and a headless checker for UI/server ID mismatches. Use it for: building a browser app or dashboard in R from a CSV or data frame (dropdowns, filters, date ranges, value boxes, charts, tables, downloads); splitting big app.R files into modules; migrating legacy code (shinythemes, callModule, shinydashboard, ui.R/server.R) to bslib; click, hover or brush on ggplot; dynamic UI, progress bars, async, bookmarking, custom JS; fixing Shiny errors such as reactive-context or 'object not found'; teaching Shiny. Also use when an R user wants colleagues or students to explore data interactively, even without saying \"Shiny\". Not for Python (Streamlit, Dash), Power BI, static ggplot figures, standalone plotly HTML or R package setup.",
+      "train_passed": 6,
+      "train_failed": 6,
+      "train_total": 12,
+      "train_results": [
+        {
+          "query": "split my 900-line app.R into modules, one per tab (Overview, QC, Differential expression), and pass the filtered data between them",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "build an interactive dashboard in R for our clinic's patient wait-time data (wait_times.csv) with date range filter, value boxes for median wait and number of visits, and a line chart by week",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "convert this old ui.R/server.R app that uses shinythemes and callModule to the modern bslib way, keep everything else working",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "my plot in shiny should let the user click a point and then show that row's details underneath. using ggplot2. how?",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "i have a csv of qPCR Ct values (columns: sample, gene, ct, treatment) and i want my lab mates to be able to pick a gene from a dropdown and see a boxplot by treatment in their browser. we all use R. can you make that?",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "My shiny app crashes with 'Error in .getReactiveEnvironment()$currentContext: Operation not allowed without an active reactive context' when I do df <- input$file in server. here's the code: server <- function(input, output) { df <- read.csv(input$file$datapath); output$t <- renderTable(df) }",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "build a streamlit dashboard in python that reads sales.parquet and shows a bar chart by region with a sidebar filter",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "make an interactive plotly html widget of my PCA scores coloured by batch that I can email as a single html file, no server needed",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "run DESeq2 on my counts matrix (counts.tsv) with condition as the design and give me a volcano plot and the top 20 genes",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "make a static ggplot2 figure of tumour volume over time per mouse, faceted by treatment, publication style, export as 300 dpi tiff",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "I'm writing an R package for my lab's plate-reader parsing functions. set up the DESCRIPTION, roxygen docs and testthat tests for read_plate()",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "Create a Power BI dashboard layout spec for the faculty's student enrolment KPIs (intake by program, retention, GPA distribution)",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        }
+      ],
+      "test_passed": 4,
+      "test_failed": 4,
+      "test_total": 8,
+      "test_results": [
+        {
+          "query": "add a progress bar to the part of my shiny server that runs a 2 minute bootstrap, and make sure other users aren't frozen while it runs",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "For BT3126 week 9 I want a teaching example that shows students the difference between reactive(), observe() and eventReactive() \u2014 small runnable app, with comments",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "how do I add a download button to my shiny app so users can save the filtered table as an excel or csv file?",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "turn my R script that fits a dose-response curve (drc package) into a little web app where you upload data, choose the model, and get the EC50 plus a plot and a pdf report",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "how do I install R 4.5 and the tidyverse on Ubuntu 24.04 without sudo? getting 'non-zero exit status' for systemfonts",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "write a parameterised R Markdown report that takes the sample sheet path as a param and renders a PDF QC summary \u2014 no app, just knit from the command line in our pipeline",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "deploy my existing shiny app to our university's ubuntu server using shiny-server and nginx with https, it already works locally",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "explain what lazy evaluation and promises mean in R function arguments, with examples of force() \u2014 it's for my advanced R lecture",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        }
+      ],
+      "passed": 6,
+      "failed": 6,
+      "total": 12,
+      "results": [
+        {
+          "query": "split my 900-line app.R into modules, one per tab (Overview, QC, Differential expression), and pass the filtered data between them",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "build an interactive dashboard in R for our clinic's patient wait-time data (wait_times.csv) with date range filter, value boxes for median wait and number of visits, and a line chart by week",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "convert this old ui.R/server.R app that uses shinythemes and callModule to the modern bslib way, keep everything else working",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "my plot in shiny should let the user click a point and then show that row's details underneath. using ggplot2. how?",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "i have a csv of qPCR Ct values (columns: sample, gene, ct, treatment) and i want my lab mates to be able to pick a gene from a dropdown and see a boxplot by treatment in their browser. we all use R. can you make that?",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "My shiny app crashes with 'Error in .getReactiveEnvironment()$currentContext: Operation not allowed without an active reactive context' when I do df <- input$file in server. here's the code: server <- function(input, output) { df <- read.csv(input$file$datapath); output$t <- renderTable(df) }",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "build a streamlit dashboard in python that reads sales.parquet and shows a bar chart by region with a sidebar filter",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "make an interactive plotly html widget of my PCA scores coloured by batch that I can email as a single html file, no server needed",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "run DESeq2 on my counts matrix (counts.tsv) with condition as the design and give me a volcano plot and the top 20 genes",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "make a static ggplot2 figure of tumour volume over time per mouse, faceted by treatment, publication style, export as 300 dpi tiff",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "I'm writing an R package for my lab's plate-reader parsing functions. set up the DESCRIPTION, roxygen docs and testthat tests for read_plate()",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "Create a Power BI dashboard layout spec for the faculty's student enrolment KPIs (intake by program, retention, GPA distribution)",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        }
+      ]
+    },
+    {
+      "iteration": 3,
+      "description": "Use this skill whenever the work touches R Shiny code or should produce one: any mention of shiny, app.R, ui.R/server.R, input$/output$, reactive(), modules or bslib, or any request for an interactive browser dashboard, explorer or tool in R for colleagues, students or a lab, even when \"Shiny\" is never named. Covers building an app from a CSV or data frame with filters, dropdowns, date ranges, value boxes, plots and tables; refactoring or splitting large apps into modules; upgrading old Shiny code (shinythemes, callModule, shinydashboard) to bslib; plot click, hover or brush and other interactivity; and diagnosing Shiny errors such as reactive-context failures. Invoke it before writing or editing the code, even for small fixes. It includes tested templates and a checker that catches broken UI/server wiring. Skip it for Python dashboards, BI tools, static plots, standalone HTML widgets and non-Shiny R analysis.",
+      "train_passed": 6,
+      "train_failed": 6,
+      "train_total": 12,
+      "train_results": [
+        {
+          "query": "convert this old ui.R/server.R app that uses shinythemes and callModule to the modern bslib way, keep everything else working",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "split my 900-line app.R into modules, one per tab (Overview, QC, Differential expression), and pass the filtered data between them",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "build an interactive dashboard in R for our clinic's patient wait-time data (wait_times.csv) with date range filter, value boxes for median wait and number of visits, and a line chart by week",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "my plot in shiny should let the user click a point and then show that row's details underneath. using ggplot2. how?",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "i have a csv of qPCR Ct values (columns: sample, gene, ct, treatment) and i want my lab mates to be able to pick a gene from a dropdown and see a boxplot by treatment in their browser. we all use R. can you make that?",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "My shiny app crashes with 'Error in .getReactiveEnvironment()$currentContext: Operation not allowed without an active reactive context' when I do df <- input$file in server. here's the code: server <- function(input, output) { df <- read.csv(input$file$datapath); output$t <- renderTable(df) }",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "build a streamlit dashboard in python that reads sales.parquet and shows a bar chart by region with a sidebar filter",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "make an interactive plotly html widget of my PCA scores coloured by batch that I can email as a single html file, no server needed",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "run DESeq2 on my counts matrix (counts.tsv) with condition as the design and give me a volcano plot and the top 20 genes",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "make a static ggplot2 figure of tumour volume over time per mouse, faceted by treatment, publication style, export as 300 dpi tiff",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "Create a Power BI dashboard layout spec for the faculty's student enrolment KPIs (intake by program, retention, GPA distribution)",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "I'm writing an R package for my lab's plate-reader parsing functions. set up the DESCRIPTION, roxygen docs and testthat tests for read_plate()",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        }
+      ],
+      "test_passed": 4,
+      "test_failed": 4,
+      "test_total": 8,
+      "test_results": [
+        {
+          "query": "add a progress bar to the part of my shiny server that runs a 2 minute bootstrap, and make sure other users aren't frozen while it runs",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "For BT3126 week 9 I want a teaching example that shows students the difference between reactive(), observe() and eventReactive() \u2014 small runnable app, with comments",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "how do I add a download button to my shiny app so users can save the filtered table as an excel or csv file?",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "turn my R script that fits a dose-response curve (drc package) into a little web app where you upload data, choose the model, and get the EC50 plus a plot and a pdf report",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "how do I install R 4.5 and the tidyverse on Ubuntu 24.04 without sudo? getting 'non-zero exit status' for systemfonts",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "explain what lazy evaluation and promises mean in R function arguments, with examples of force() \u2014 it's for my advanced R lecture",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "write a parameterised R Markdown report that takes the sample sheet path as a param and renders a PDF QC summary \u2014 no app, just knit from the command line in our pipeline",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "deploy my existing shiny app to our university's ubuntu server using shiny-server and nginx with https, it already works locally",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        }
+      ],
+      "passed": 6,
+      "failed": 6,
+      "total": 12,
+      "results": [
+        {
+          "query": "convert this old ui.R/server.R app that uses shinythemes and callModule to the modern bslib way, keep everything else working",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "split my 900-line app.R into modules, one per tab (Overview, QC, Differential expression), and pass the filtered data between them",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "build an interactive dashboard in R for our clinic's patient wait-time data (wait_times.csv) with date range filter, value boxes for median wait and number of visits, and a line chart by week",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "my plot in shiny should let the user click a point and then show that row's details underneath. using ggplot2. how?",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "i have a csv of qPCR Ct values (columns: sample, gene, ct, treatment) and i want my lab mates to be able to pick a gene from a dropdown and see a boxplot by treatment in their browser. we all use R. can you make that?",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "My shiny app crashes with 'Error in .getReactiveEnvironment()$currentContext: Operation not allowed without an active reactive context' when I do df <- input$file in server. here's the code: server <- function(input, output) { df <- read.csv(input$file$datapath); output$t <- renderTable(df) }",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "build a streamlit dashboard in python that reads sales.parquet and shows a bar chart by region with a sidebar filter",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "make an interactive plotly html widget of my PCA scores coloured by batch that I can email as a single html file, no server needed",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "run DESeq2 on my counts matrix (counts.tsv) with condition as the design and give me a volcano plot and the top 20 genes",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "make a static ggplot2 figure of tumour volume over time per mouse, faceted by treatment, publication style, export as 300 dpi tiff",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "Create a Power BI dashboard layout spec for the faculty's student enrolment KPIs (intake by program, retention, GPA distribution)",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "I'm writing an R package for my lab's plate-reader parsing functions. set up the DESCRIPTION, roxygen docs and testthat tests for read_plate()",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        }
+      ]
+    }
+  ]
+}

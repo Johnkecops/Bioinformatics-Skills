@@ -1,0 +1,7 @@
+schema_version: "1.1"
+name: modular-tabs
+expected_outcome: |
+  A navbar Shiny app in modules_app/ with Data, Plot and Model tabs, each a module
+  built on moduleServer, sharing the selected dataset between modules via reactives,
+  a button-triggered model fit with a progress bar, and URL bookmarking enabled.
+  Passes the smoke test.

@@ -1,0 +1,48 @@
+{
+  "expectations": [
+    {
+      "text": "Running the skill's scripts/check_app.R on the produced app directory reports 0 errors.",
+      "passed": true,
+      "evidence": "check_app.R re-run: 'RESULT: 0 error(s), 0 warning(s)'."
+    },
+    {
+      "text": "The scatter plot's plotOutput has a brush argument and the table is computed with brushedPoints() (or equivalent filtering on input$<brush>) from the same filtered data the plot uses.",
+      "passed": true,
+      "evidence": "app.R:31 plotOutput(\"scatter\", brush = brushOpts(\"scatter_brush\", resetOnNew = TRUE)); app.R:54 brushedPoints(filtered(), input$scatter_brush); plot app.R:59 uses filtered(). testServer (cyl 4,6; Manual; brush wt 2-3.5, mpg 15-35): filtered 11 rows, brushed 7 rows."
+    },
+    {
+      "text": "The downloadHandler writes the same brushed-and-filtered rows that the table shows, not the full or only-filtered dataset.",
+      "passed": true,
+      "evidence": "app.R:81 write.csv(brushed(), file, row.names = FALSE); table app.R:71 datatable(brushed()). testServer: downloaded CSV has 7 rows, car column identical to brushed() (not 11 filtered / 32 full)."
+    },
+    {
+      "text": "The cylinder/transmission filtering is done once in a single reactive that both the plot and the table read, not repeated inside each render function.",
+      "passed": true,
+      "evidence": "app.R:42-49 single filtered <- reactive({...}) read by renderPlot (app.R:59) and brushed() (app.R:54); no filtering inside render functions."
+    },
+    {
+      "text": "Car names (mtcars row names) appear in the table and the CSV, e.g. as a column, rather than being silently dropped.",
+      "passed": true,
+      "evidence": "app.R:10 cbind(car = rownames(mtcars), mtcars, row.names = NULL); testServer: brushed() and CSV columns start with 'car' (e.g. 'Mazda RX4', 'Volvo 142E')."
+    }
+  ],
+  "summary": {
+    "passed": 5,
+    "failed": 0,
+    "total": 5,
+    "pass_rate": 1.0
+  },
+  "eval_feedback": {
+    "suggestions": [
+      {
+        "assertion": "The cylinder/transmission filtering is done once in a single reactive that both the plot and the table read, not repeated inside each render function.",
+        "reason": "Both runs (and any idiomatic Shiny answer) pass; it does not discriminate. Consider asserting empty-filter handling (validate/need) instead."
+      },
+      {
+        "assertion": "Car names (mtcars row names) appear in the table and the CSV, e.g. as a column, rather than being silently dropped.",
+        "reason": "Both runs add a car column via cbind(car = rownames(mtcars), ...); non-discriminating for this pair."
+      }
+    ],
+    "overall": "All five assertions pass for both runs; the apps are nearly identical. Differences (validate() on empty filters, duplicated transmission column in CSV) are not captured by any assertion."
+  }
+}

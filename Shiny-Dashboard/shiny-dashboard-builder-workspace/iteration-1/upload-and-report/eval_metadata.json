@@ -1,0 +1,12 @@
+{
+  "eval_name": "upload-and-report",
+  "prompt": "I teach a biostatistics class. I need a Shiny app where students upload a CSV (chick_weights.csv is an example of the kind of file they'll use), pick a numeric column and a grouping column from dropdowns that fill in from the uploaded file, see summary stats per group (n, mean, sd, missing values) and a boxplot, and then download a short HTML report with the table and the plot. Some files will have missing values. Make it in a folder upload_app.\n\nInput files: chick_weights.csv",
+  "assertions": [
+    "Running the skill's scripts/check_app.R on the produced app directory reports 0 errors.",
+    "Column dropdown choices are filled from the uploaded file's columns (updateSelectInput/updateSelectizeInput or renderUI), with the numeric dropdown limited to numeric columns.",
+    "Code reads input$<file>$datapath and guards with req() so nothing errors before a file is uploaded.",
+    "Summary statistics use na.rm = TRUE (or equivalent) and report a per-group count of missing values; on chick_weights.csv the weight column shows 6 missing in total.",
+    "When the report download is triggered with chick_weights.csv uploaded (e.g. via testServer), an HTML file is produced that contains the summary table and an embedded plot.",
+    "The report is rendered from a template copied to tempdir() (or otherwise not written into the app folder) and receives data via params or an explicit environment, not via global variables."
+  ]
+}

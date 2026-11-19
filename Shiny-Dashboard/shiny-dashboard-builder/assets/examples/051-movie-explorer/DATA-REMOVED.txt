@@ -1,0 +1,1 @@
+movies.db ( 13M) removed to keep the skill small. Original: rstudio/shiny-examples repo, same path.

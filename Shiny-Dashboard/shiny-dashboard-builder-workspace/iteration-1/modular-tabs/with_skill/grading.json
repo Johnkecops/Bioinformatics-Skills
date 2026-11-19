@@ -1,0 +1,40 @@
+{
+  "expectations": [
+    {
+      "text": "Running the skill's scripts/check_app.R on the produced app directory reports 0 errors.",
+      "passed": true,
+      "evidence": "check_app.R on with_skill/outputs/modules_app: 'RESULT: 0 error(s)'."
+    },
+    {
+      "text": "There are three module pairs (UI function using NS(id) + server function using moduleServer()), one per tab; callModule() is not used.",
+      "passed": true,
+      "evidence": "R/mod_data.R:2-3 data_ui ns <- NS(id), :13 moduleServer(); R/mod_plot.R:2-3 plot_ui NS, :15 moduleServer(); R/mod_model.R:2-3 model_ui NS, :16 moduleServer(). Wired in app.R:24-26 and :35-37. No callModule anywhere."
+    },
+    {
+      "text": "The selected dataset from the Data module is returned as a reactive and passed into the Plot and Model modules (not re-selected in each tab, not read via a global variable).",
+      "passed": true,
+      "evidence": "mod_data.R:31 returns `dataset` (the reactive, uncalled); app.R:35-37 `dataset <- data_server(...)`; plot_server('plot', dataset); model_server('model', dataset). testServer: is.reactive(session$getReturned()) TRUE, value identical to mtcars after setInputs(dataset='mtcars'). Plot/Model servers stopifnot(is.reactive(dataset)) (mod_plot.R:14, mod_model.R:15). `datasets` list is a global constant passed as an argument, the selection itself is not global."
+    },
+    {
+      "text": "In the Plot and Model tabs, column choices update when the dataset changes, and only numeric columns are offered where a numeric column is required.",
+      "passed": true,
+      "evidence": "mod_plot.R:18-22 and mod_model.R:18-23 observeEvent(dataset(), { cols <- numeric_cols(dataset()); updateSelectInput(...) }) keeping still-valid selections; utils.R:3 numeric_cols filters is.numeric (ToothGrowth -> len, dose; supp excluded). Initial UI choices also numeric via restoreInput-aware start_cols (app.R:16-18). Stale column after switch is caught by validate(need(...)) (testServer: 'Choose two columns')."
+    },
+    {
+      "text": "The model fit runs only when its button is clicked (bindEvent/eventReactive/observeEvent) and shows progress via withProgress/incProgress, Progress$new, or ExtendedTask with input_task_button.",
+      "passed": true,
+      "evidence": "mod_model.R:28-42 fit <- reactive({... withProgress(... incProgress(1/10) ...) lm(...)}) |> bindEvent(input$fit). testServer: fit() before click -> silent req error (no fit); after setInputs(fit=1) returns coef 6.53/-0.22 in ~2 s (the simulated progress loop). Clicking with x/y NULL -> validate message 'Choose two different columns', no crash."
+    },
+    {
+      "text": "URL bookmarking is enabled (enableBookmarking('url') or shinyApp(..., enableBookmarking = 'url')) and the UI is a function of request; a bookmark button or automatic URL update is present.",
+      "passed": true,
+      "evidence": "app.R:12 ui <- function(request); app.R:47 shinyApp(ui, server, enableBookmarking = 'url'); app.R:28 bookmarkButton(label='Share link'); app.R:40-44 observe(reactiveValuesToList(input); session$doBookmark()) + onBookmarked(updateQueryString). DT state inputs excluded (mod_data.R:16-19)."
+    }
+  ],
+  "summary": {
+    "passed": 6,
+    "failed": 0,
+    "total": 6,
+    "pass_rate": 1
+  }
+}

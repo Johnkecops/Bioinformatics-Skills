@@ -1,0 +1,49 @@
+{
+  "expectations": [
+    {
+      "text": "Running the skill's scripts/check_app.R on the produced app directory reports 0 errors.",
+      "passed": false,
+      "evidence": "check_app.R: 'RESULT: 1 error(s)': output 'model-summary' (after clicks) error: 'termlabels' must be a character vector. Reproduced with testServer(modelServer): setInputs(x=NULL,y=NULL,fit=2) -> simpleError from reformulate(). Cause: mod_model.R:38 fitted_on(list(x=input$x, y=input$y)) stores a length-2 list of NULLs; validate(need(f)) (line 43) treats it as truthy and all(unlist(f) %in% ...) is all(NULL)=TRUE, so reformulate(NULL) runs (line 52). Severity: low for real users: selects start with choices=NULL (lines 8-9) but observeEvent(data()) fills them on the first flush, so the inputs are set before a person can click; only reachable in a race on a very slow connection or if a dataset had no numeric columns. Still a missing guard, and the assertion is graded literally: FAIL."
+    },
+    {
+      "text": "There are three module pairs (UI function using NS(id) + server function using moduleServer()), one per tab; callModule() is not used.",
+      "passed": true,
+      "evidence": "mod_data.R:8-9 dataUI NS(id), :19 moduleServer(); mod_plot.R:10-11 plotUI NS, :22 moduleServer(); mod_model.R:4-5 modelUI NS, :17 moduleServer(). No callModule."
+    },
+    {
+      "text": "The selected dataset from the Data module is returned as a reactive and passed into the Plot and Model modules (not re-selected in each tab, not read via a global variable).",
+      "passed": true,
+      "evidence": "mod_data.R:26-28 data <- reactive(datasets[[input$dataset]]); returns `data` uncalled. app.R:19-21 passes `dataset` into plotServer and modelServer. testServer: getReturned() is reactive, identical to mtcars after selection."
+    },
+    {
+      "text": "In the Plot and Model tabs, column choices update when the dataset changes, and only numeric columns are offered where a numeric column is required.",
+      "passed": true,
+      "evidence": "mod_plot.R:28-32 and mod_model.R:28-33 observeEvent(data(), ...) -> update_col_select() -> updateSelectInput(choices = numeric_cols(data())) (helper mod_plot.R:5-8, numeric_cols mod_data.R:6). Only numeric columns offered; stale selections blocked by req()/validate (Model: 'Selected columns are not in this dataset' after switching to mtcars in testServer)."
+    },
+    {
+      "text": "The model fit runs only when its button is clicked (bindEvent/eventReactive/observeEvent) and shows progress via withProgress/incProgress, Progress$new, or ExtendedTask with input_task_button.",
+      "passed": true,
+      "evidence": "mod_model.R:37-38 fitted_on reactiveVal set only in observeEvent(input$fit, ...); renderPrint (41-55) wraps the lm in withProgress/incProgress. testServer: before click -> 'Choose x and y, then click Fit model'; after click R-squared shown in ~2 s; changing x without clicking does not refit (0 s, summary still Sepal.Width). Caveat: the progress/fit also reruns without a click when restoring a bookmark that saved fitted_on (onBookmark line 39), which is intentional."
+    },
+    {
+      "text": "URL bookmarking is enabled (enableBookmarking('url') or shinyApp(..., enableBookmarking = 'url')) and the UI is a function of request; a bookmark button or automatic URL update is present.",
+      "passed": true,
+      "evidence": "app.R:8 ui <- function(request); app.R:32 shinyApp(..., enableBookmarking = 'url'); app.R:25-29 observe(reactiveValuesToList(input); session$doBookmark()) + onBookmarked(updateQueryString) keeps the URL updated automatically. No bookmarkButton, which the assertion allows. Restore of the server-filled selects handled via onRestore (mod_plot.R:25-26, mod_model.R:22-26)."
+    }
+  ],
+  "summary": {
+    "passed": 5,
+    "failed": 1,
+    "total": 6,
+    "pass_rate": 0.83
+  },
+  "eval_feedback": {
+    "suggestions": [
+      {
+        "assertion": "Running the skill's scripts/check_app.R on the produced app directory reports 0 errors.",
+        "reason": "The only failure here is a NULL-input click that the checker can produce but a real browser almost never can (the select is filled on first flush). The assertion is fine as a robustness proxy, but graders should know it can flag near-unreachable paths; consider making check_app.R apply updateSelectInput messages or document this."
+      }
+    ],
+    "overall": "Assertions 2-6 do not discriminate between the runs; both satisfy them. Differences are in robustness (input validation, URL-tampering guards) that no assertion targets."
+  }
+}

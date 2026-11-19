@@ -6,7 +6,7 @@ This repository is not an application and does not ship a single pipeline you ru
 
 Each skill is a folder of markdown: a `SKILL.md` file plus optional chapters, cheatsheets, and reference notes. The agent reads those files when the task matches. You do not compile them. You install them by putting them on disk where the agent looks, then asking it to do the work.
 
-New skills can be deposited here at any time. The folders below are the current holdings, not the ceiling of the collection. A dissertation knowledge base, a teaching-lab protocol, an RNA-methods family, a disease-application pipeline, a teaching app for AI equations, a PRD generator for health AI, a drug-interaction checker, and a journal finder for simulation papers already sit side by side; the next deposit does not need to match any of them.
+New skills can be deposited here at any time. The folders below are the current holdings, not the ceiling of the collection. A dissertation knowledge base, a teaching-lab protocol, an RNA-methods family, a disease-application pipeline, a teaching app for AI equations, a PRD generator for health AI, a drug-interaction checker, and a journal finder for simulation papers, an R Shiny dashboard builder, and a co-occurrence statistics benchmark already sit side by side; the next deposit does not need to match any of them.
 
 ---
 
@@ -40,10 +40,12 @@ The collection is **additive**. Folders are independent. A docking skill, a meta
 | [`prd-ai-life-sciences/`](prd-ai-life-sciences/) | `prd-ai-life-sciences` | Product Requirements Document for AI/ML products in life sciences and health (clinical AI / SaMD, drug-discovery AI, omics platforms, digital health, LLM health tools). Three modes: blank 21-section .docx template, populated draft for a named product, or gap review of an existing PRD. Bundles a Node generator script and a per-section checklist. |
 | [`DDI-i3L/drug-interaction-check.skill`](DDI-i3L/) | `drug-interaction-check` | Structured, source-backed answers on drug-drug, drug-food, drug-herb, and drug-supplement interactions (PK vs PD, CYP450, P-gp). Resolves brands to active ingredients, grades severity as the source does, and answers in English or Bahasa Indonesia. Background from *Utilizing Information System to Tackle Drug-Drug Interaction in Clinical Setting* (i3L Press, 2021); the book PDF is kept locally and not redistributed (see `.gitignore`); the skill uses its own page-cited notes. Supports, never replaces, prescriber or pharmacist review. |
 | [`biosim journal finder/biosim-journal-finder.skill`](biosim%20journal%20finder/) | `biosim-journal-finder` | Shortlists and verifies target journals for biomolecular simulation and computational structural biology manuscripts (MD, free energy, docking, ML potentials, structure-prediction benchmarks). Checks fee model (diamond OA, APC, waivers), PubMed, Scopus/SJR, and WoS/JCR per journal, marks each claim verified or not, and offers a relaxation ladder when the filter intersection is empty. |
+| [`Shiny-Dashboard/shiny-dashboard-builder/`](Shiny-Dashboard/) | `shiny-dashboard-builder` | Builds, extends, debugs, or explains R Shiny apps and dashboards from a bundled catalog of about 170 RStudio Shiny examples (layouts, widgets, reactivity, plots, tables, upload/download, modules, dynamic UI, plot brushing, async, custom JavaScript), modernised to bslib and current Shiny idioms. Includes three starter templates (explorer dashboard, modular tabs, upload-and-report) and `scripts/check_app.R`, which smoke-tests the finished app headlessly. A packaged copy (`shiny-dashboard-builder.skill`) and the skill-creator eval workspace sit beside it. |
+| [`cooccurrence-benchmark/`](cooccurrence-benchmark/) | `cooccurrence-benchmark` | Co-occurrence and avoidance of histone marks (or any binary features) across one or more tables, with mandatory rigor guardrails: unit-of-row check first, degenerate-column filtering, two-sided Fisher exact tests with odds ratios and exact confidence intervals, one Benjamini-Hochberg family per source, a simulation-based software check, and honest labelling of curation-effort correlations. Needs scipy and statsmodels. The skill cites a reference implementation, `stats_core.py`, that is not in this folder yet. |
 
-These are **current deposits**, not a closed catalogue. Drop another folder at the root (or inside a family directory) when a new method is ready. The transcriptomics protocol, the Alzheimer pipeline, the equations app, the PRD generator, the DDI checker, and the journal finder all arrived after the first holdings; none required a new install mechanism. The next skill will be the same.
+These are **current deposits**, not a closed catalogue. Drop another folder at the root (or inside a family directory) when a new method is ready. The transcriptomics protocol, the Alzheimer pipeline, the equations app, the PRD generator, the DDI checker, the journal finder, the Shiny builder, and the co-occurrence benchmark all arrived after the first holdings; none required a new install mechanism. The next skill will be the same.
 
-**Packaged deposits.** `drug-interaction-check` and `biosim-journal-finder` are stored as `.skill` files, which are zip archives holding `<skill-name>/SKILL.md` plus a `references/` folder. Agents do not read inside the zip, so unzip them before installing (see Method B).
+**Packaged deposits.** `drug-interaction-check` and `biosim-journal-finder` are stored as `.skill` files (`shiny-dashboard-builder` also ships one, but its unpacked folder is tracked too, so it needs no unzip), which are zip archives holding `<skill-name>/SKILL.md` plus a `references/` folder. Agents do not read inside the zip, so unzip them before installing (see Method B).
 
 ---
 
@@ -82,9 +84,17 @@ Bioinformatics-Skills/
 │   ├── drug-interaction-check.skill     ← zip: SKILL.md + references/book-notes.md
 │   ├── Drug-Drug-Interaction.pdf        ← source book, local only (git-ignored)
 │   └── Claude outputs/                  ← skill-creator review reports (HTML)
-└── biosim journal finder/               ← research ops / publishing (packaged)
-    └── biosim-journal-finder.skill      ← zip: SKILL.md + references/ (venue pools,
-                                            verification playbook, worked example)
+├── biosim journal finder/               ← research ops / publishing (packaged)
+│   └── biosim-journal-finder.skill      ← zip: SKILL.md + references/ (venue pools,
+│                                           verification playbook, worked example)
+├── Shiny-Dashboard/                     ← R Shiny app builder
+│   ├── shiny-dashboard-builder/         ← the skill: SKILL.md, references/ (pattern
+│   │                                       chapters), assets/ (examples, templates),
+│   │                                       scripts/ (build_catalog.R, check_app.R), evals/
+│   ├── shiny-dashboard-builder.skill    ← packaged zip of the same skill
+│   └── shiny-dashboard-builder-workspace/ ← skill-creator eval iterations and reports
+└── cooccurrence-benchmark/              ← statistics guardrails
+    └── SKILL.md
 ```
 
 **Convention for new deposits:** prefer one directory per skill, with `SKILL.md` at the top of that directory. Related skills may share a family folder (as `siRNA-Skills/` does) when they form a single research line. Supporting files — chapters, scripts, reference tables — live next to `SKILL.md`, not at the repository root.
@@ -99,7 +109,7 @@ A skill directory is valid when it contains YAML frontmatter with at least `name
 - Git, to clone or update the library.
 - Optional, per skill: the scientific tools named inside that skill (Python packages, web servers, desktop programs). Installing the library does **not** install AUGUSTUS, BLAST+, Bowtie, TopHat, OpenMM, TensorFlow, RNAxs, or HMMER. Those are pulled in only when you actually run that workflow.
 
-Python 3.10+ covers the OpenMM, Alzheimer, and equations-app skills. The PRD skill needs Node.js with the `docx` npm package. The DDI checker and journal finder need no local software, but they work best when the agent has web search or literature tools (PubMed, ChEMBL) connected; without them they must flag their answers as unverified. The transcriptomics protocol also needs R (edgeR) and the classic NGS toolchain. The protein-domain and siRNA-design skills mix local tools with public web servers; see each `SKILL.md` for the list.
+Python 3.10+ covers the OpenMM, Alzheimer, equations-app, and co-occurrence skills. The Shiny builder needs R with the `shiny` and `bslib` packages. The PRD skill needs Node.js with the `docx` npm package. The DDI checker and journal finder need no local software, but they work best when the agent has web search or literature tools (PubMed, ChEMBL) connected; without them they must flag their answers as unverified. The transcriptomics protocol also needs R (edgeR) and the classic NGS toolchain. The protein-domain and siRNA-design skills mix local tools with public web servers; see each `SKILL.md` for the list.
 
 ---
 
@@ -201,6 +211,13 @@ ln -s "$REPO/nietzschean-ai-equations" "$SKILLS_HOME/nietzschean-ai-equations"
 # Health-AI PRD generator
 ln -s "$REPO/prd-ai-life-sciences" "$SKILLS_HOME/prd-ai-life-sciences"
 
+# Shiny dashboard builder (the skill is the inner folder, not Shiny-Dashboard/)
+ln -s "$REPO/Shiny-Dashboard/shiny-dashboard-builder" \
+  "$SKILLS_HOME/shiny-dashboard-builder"
+
+# Co-occurrence and avoidance benchmark
+ln -s "$REPO/cooccurrence-benchmark" "$SKILLS_HOME/cooccurrence-benchmark"
+
 # Packaged skills: unzip straight into the skills directory
 # (each archive already contains its own <skill-name>/ folder)
 unzip "$REPO/DDI-i3L/drug-interaction-check.skill" -d "$SKILLS_HOME"
@@ -258,6 +275,14 @@ Structure-based drug discovery with ANM: Python 3.10+, rdkit, pandas, numpy, mat
 
 Nietzschean AI equations app: Streamlit, NumPy, Matplotlib, SciPy, and PyTorch for the backprop/ADAM snippets. The skill warns that the app's pinned versions (torch 2.0.1, streamlit 1.28.1) may not install on Python 3.12+; check before pinning.
 
+Shiny dashboard builder: R with `shiny` and `bslib`; each bundled example lists any extra packages it uses. Check a finished app with `Rscript scripts/check_app.R <app-dir>` from the skill folder.
+
+Co-occurrence benchmark:
+
+```bash
+pip install pandas numpy scipy statsmodels
+```
+
 Health-AI PRD generator:
 
 ```bash
@@ -281,6 +306,8 @@ Examples:
 - “Add a KL-divergence page to the Beyond Good and Computation app, with a transcriptomics example.”
 - “Write a PRD for our TB drug-resistance variant classifier.” / “Review this PRD for missing sections.”
 - “Can my patient take rifampicin with warfarin?” / “Apakah simvastatin aman diminum dengan jus grapefruit?”
+- “Build a Shiny dashboard with a file upload, a filter sidebar, and a downloadable report.”
+- “Which histone-mark pairs co-occur or avoid each other in this table? Use Fisher tests with FDR.”
 - “Where should I submit this RNA MD benchmark? It must be diamond OA, Scopus Q1, and in PubMed.”
 
 You can also invoke a skill by name as a slash command when the agent supports it (`/parikesit-protein-domains`, `/openmm-sirna-md`, and so on).
@@ -351,6 +378,8 @@ Shapes already in this library, all valid:
 - **Document generator** — `prd-ai-life-sciences` (a bundled script plus a review checklist)
 - **Clinical decision support** — `drug-interaction-check` (a fixed answer format, evidence hierarchy, and safety rules)
 - **Research ops** — `biosim-journal-finder` (a verification playbook for venue selection)
+- **App builder** — `shiny-dashboard-builder` (pattern catalog, starter templates, and a headless smoke test)
+- **Statistics guardrails** — `cooccurrence-benchmark` (an ordered checklist that blocks common testing mistakes)
 
 Mix them as the work requires. A future deposit can be any of these, or something else (a database client, another course pack).
 

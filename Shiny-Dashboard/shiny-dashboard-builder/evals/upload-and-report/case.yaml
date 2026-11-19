@@ -1,0 +1,10 @@
+schema_version: "1.1"
+name: upload-and-report
+expected_outcome: |
+  A Shiny app in upload_app/ that accepts a CSV upload, fills numeric/grouping column
+  choices from the file, shows per-group n/mean/sd/missing and a boxplot, handles NA
+  values, and downloads an HTML report (via rmarkdown with params or equivalent)
+  containing the table and plot. Passes the smoke test; report generation works on
+  chick_weights.csv.
+context:
+  scaffold_script: place-files.sh

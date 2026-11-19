@@ -1,0 +1,59 @@
+{
+  "expectations": [
+    {
+      "text": "Running the skill's scripts/check_app.R on the produced app directory reports 0 errors.",
+      "passed": true,
+      "evidence": "check_app.R: 0 error(s), 0 warning(s)."
+    },
+    {
+      "text": "There are three module pairs (UI function using NS(id) + server function using moduleServer()), one per tab; callModule() is not used.",
+      "passed": true,
+      "evidence": "data_ui/data_server, plot_ui/plot_server, model_ui/model_server in R/; each UI uses NS(id), each server moduleServer(); no callModule."
+    },
+    {
+      "text": "The selected dataset from the Data module is returned as a reactive and passed into the Plot and Model modules (not re-selected in each tab, not read via a global variable).",
+      "passed": true,
+      "evidence": "testServer(data_server): session$returned$data is.reactive=TRUE; app.R passes ds$data/ds$name to plot_server and model_server; both stopifnot(is.reactive(data))."
+    },
+    {
+      "text": "In the Plot and Model tabs, column choices update when the dataset changes, and only numeric columns are offered where a numeric column is required.",
+      "passed": true,
+      "evidence": "observe(...) |> bindEvent(data()) calls updateSelectInput with numeric_cols(data()) in Plot (column) and Model (x,y); ToothGrowth would offer only len/dose."
+    },
+    {
+      "text": "The model fit runs only when its button is clicked (bindEvent/eventReactive/observeEvent) and shows progress via withProgress/incProgress, Progress$new, or ExtendedTask with input_task_button.",
+      "passed": true,
+      "evidence": "fit <- reactive(...) |> bindEvent(input$fit) with withProgress/incProgress loop; testServer normal fit produced summary with Coefficients."
+    },
+    {
+      "text": "URL bookmarking is enabled (enableBookmarking('url') or shinyApp(..., enableBookmarking = 'url')) and the UI is a function of request; a bookmark button or automatic URL update is present.",
+      "passed": true,
+      "evidence": "ui <- function(request); shinyApp(..., enableBookmarking='url'); bookmarkButton in navbar; setBookmarkExclude('fit') and onRestore for column pickers."
+    },
+    {
+      "text": "Choosing the same column for x and y in the Model tab produces a readable message instead of fitting y ~ y (which yields a warning and a meaningless summary).",
+      "passed": true,
+      "evidence": "testServer: x=y='Sepal.Length', fit=1 -> output$summary raises validation 'Choose two different columns: y ~ y is not a model.'; no lm call."
+    },
+    {
+      "text": "Clicking Fit while the x/y column inputs are still NULL does not raise an R error (guarded by req() or equivalent that handles NULL).",
+      "passed": true,
+      "evidence": "testServer: fit=1 with x/y never set -> shiny.silent.error from req(input$x, input$y); no R error."
+    }
+  ],
+  "summary": {
+    "passed": 8,
+    "failed": 0,
+    "total": 8,
+    "pass_rate": 1
+  },
+  "eval_feedback": {
+    "suggestions": [
+      {
+        "assertion": "In the Plot and Model tabs, column choices update when the dataset changes, and only numeric columns are offered where a numeric column is required.",
+        "reason": "Verified by code reading; testServer cannot easily observe updateSelectInput choices. A check via session messages would make it behavioural."
+      }
+    ],
+    "overall": "Strong, behaviourally verified."
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "eval_name": "explorer-dashboard",
+  "prompt": "can you build me a shiny dashboard for the mtcars data? I want a sidebar where I can filter by number of cylinders and transmission type, a scatter plot of weight vs mpg where I can drag a box (brush) over points, a table underneath that shows only the cars I brushed, and a button to download whatever is in that table as CSV. Put it in a folder called mtcars_app.",
+  "assertions": [
+    "Running the skill's scripts/check_app.R on the produced app directory reports 0 errors.",
+    "The scatter plot's plotOutput has a brush argument and the table is computed with brushedPoints() (or equivalent filtering on input$<brush>) from the same filtered data the plot uses.",
+    "The downloadHandler writes the same brushed-and-filtered rows that the table shows, not the full or only-filtered dataset.",
+    "The cylinder/transmission filtering is done once in a single reactive that both the plot and the table read, not repeated inside each render function.",
+    "Car names (mtcars row names) appear in the table and the CSV, e.g. as a column, rather than being silently dropped."
+  ]
+}

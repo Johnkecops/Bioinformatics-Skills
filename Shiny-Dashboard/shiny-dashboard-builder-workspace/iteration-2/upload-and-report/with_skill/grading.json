@@ -1,0 +1,67 @@
+{
+  "expectations": [
+    {
+      "text": "Running the skill's scripts/check_app.R on the produced app directory reports 0 errors.",
+      "passed": true,
+      "evidence": "check_app.R: 0 errors, 0 warnings (pre-run)."
+    },
+    {
+      "text": "Column dropdown choices are filled from the uploaded file's columns (updateSelectInput/updateSelectizeInput or renderUI), with the numeric dropdown limited to numeric columns.",
+      "passed": true,
+      "evidence": "observeEvent(data()) -> updateSelectInput for value_col (choices = numeric columns via vapply(is.numeric)) and group_col (all columns, default = lowest-cardinality, i.e. Diet)."
+    },
+    {
+      "text": "Code reads input$<file>$datapath and guards with req() so nothing errors before a file is uploaded.",
+      "passed": true,
+      "evidence": "data() reads input$file$datapath; guarded by validate(need(input$file, 'Upload a CSV file to begin.')) (req-equivalent silent error) plus req(input$value_col, input$group_col). testServer pre-upload: summary output gives validation message, no R error."
+    },
+    {
+      "text": "Summary statistics use na.rm = TRUE (or equivalent) and report a per-group count of missing values; on chick_weights.csv the weight column shows 6 missing in total.",
+      "passed": true,
+      "evidence": "group_summary uses mean/sd(na.rm=TRUE) and missing=sum(is.na(v)); testServer weight by Diet: missing 2,2,0,2 = 6; n 218/118/120/116."
+    },
+    {
+      "text": "When the report download is triggered with chick_weights.csv uploaded (e.g. via testServer), an HTML file is produced that contains the summary table and an embedded plot.",
+      "passed": true,
+      "evidence": "output$report via testServer produced HTML (22 KB) with <table> containing group/n/mean/sd/missing rows (102.36, 56.63, ...) and an embedded data:image/png;base64 image (knitr + markdown::mark_html, no pandoc)."
+    },
+    {
+      "text": "The report is rendered from a template copied to tempdir() (or otherwise not written into the app folder) and receives data via params or an explicit environment, not via global variables.",
+      "passed": true,
+      "evidence": "report.Rmd copied into tempfile() dir; knit with envir = new.env() holding params list (table, plot, columns). App dir unchanged after download (app.R, report.Rmd only)."
+    },
+    {
+      "text": "Uploading a CSV that has no numeric column shows a readable message in the page (validate/need, showNotification or similar that is actually displayed) rather than a blank page or an R error.",
+      "passed": true,
+      "evidence": "name,city CSV: summary and boxplot outputs both show validation message 'This file has no numeric columns, so there is nothing to summarise.' No R error."
+    },
+    {
+      "text": "Uploading a file that is not a CSV (e.g. a .txt with random text, or wrong extension) produces a readable message and no R error.",
+      "passed": true,
+      "evidence": "notes.txt: both outputs show 'That is not a .csv file. Please upload a CSV.' via extension check; no R error. fileInput also has accept=.csv."
+    }
+  ],
+  "summary": {
+    "passed": 8,
+    "failed": 0,
+    "total": 8,
+    "pass_rate": 1.0
+  },
+  "eval_feedback": {
+    "suggestions": [
+      {
+        "assertion": "The report is rendered from a template copied to tempdir() (or otherwise not written into the app folder) and receives data via params or an explicit environment, not via global variables.",
+        "reason": "Assumes an Rmd/template approach; a run that builds HTML inline in downloadHandler (no template, no params, no app-folder writes, no globals) is ambiguous. Clarify whether inline HTML generation is acceptable."
+      },
+      {
+        "assertion": "Code reads input$<file>$datapath and guards with req() so nothing errors before a file is uploaded.",
+        "reason": "Wording requires req(); validate(need(input$file, ...)) is an equivalent (better, message-bearing) guard. Consider 'req() or validate(need())'."
+      },
+      {
+        "assertion": "Uploading a file that is not a CSV (e.g. a .txt with random text, or wrong extension) produces a readable message and no R error.",
+        "reason": "A random .txt usually parses as a 1-column CSV, so a generic 'no numeric columns' message satisfies the check; consider requiring the message to identify the wrong file type."
+      }
+    ],
+    "overall": "Both apps work end to end without pandoc. Differences are in error UX and report architecture."
+  }
+}
